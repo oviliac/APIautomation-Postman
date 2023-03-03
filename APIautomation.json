@@ -1,0 +1,825 @@
+{
+	"info": {
+		"_postman_id": "28c0c7d2-09ba-4f9f-9757-e1312e844f9c",
+		"name": "APIautomation",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26097100"
+	},
+	"item": [
+		{
+			"name": "CreateToken",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var response = JSON.parse(responseBody)",
+							"// pm.collectionVariables.set(\"token\", response.token);",
+							"pm.globals.set(\"token\", response.token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\" : \"admin\",\n    \"password\" : \"password123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{global}}/auth",
+					"host": [
+						"{{global}}"
+					],
+					"path": [
+						"auth"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateBooking",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 600ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(600);",
+							"});",
+							"",
+							"pm.test(\"Body matches\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Ovilia\");",
+							"    pm.expect(pm.response.text()).to.include(\"Chyntya\");",
+							"});",
+							"",
+							"var response = JSON.parse(responseBody)",
+							"// pm.collectionVariables.set(\"bookingid\", response.bookingid);",
+							"pm.globals.set(\"bookingid\", response.bookingid);",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"firstname\", \"Ovilia\");",
+							"pm.collectionVariables.set(\"lastname\", \"Chyntya\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstname\" : \"{{firstname}}\",\n    \"lastname\" : \"{{lastname}}\",\n    \"totalprice\" : 111,\n    \"depositpaid\" : true,\n    \"bookingdates\" : {\n        \"checkin\" : \"2023-03-02\",\n        \"checkout\" : \"2023-03-03\"\n    },\n    \"additionalneeds\" : \"Breakfast\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{global}}/booking",
+					"host": [
+						"{{global}}"
+					],
+					"path": [
+						"booking"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Success Create Booking",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstname\" : \"{{firstname}}\",\n    \"lastname\" : \"{{lastname}}\",\n    \"totalprice\" : 111,\n    \"depositpaid\" : true,\n    \"bookingdates\" : {\n        \"checkin\" : \"2023-03-02\",\n        \"checkout\" : \"2023-03-03\"\n    },\n    \"additionalneeds\" : \"Breakfast\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{global}}/booking",
+							"host": [
+								"{{global}}"
+							],
+							"path": [
+								"booking"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Cowboy"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "202"
+						},
+						{
+							"key": "Etag",
+							"value": "W/\"ca-cTW+xEbUC3baU6X7BRjHfH06pjc\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 02 Mar 2023 10:35:59 GMT"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 vegur"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"bookingid\": 1545,\n    \"booking\": {\n        \"firstname\": \"Ovilia\",\n        \"lastname\": \"Chyntya\",\n        \"totalprice\": 111,\n        \"depositpaid\": true,\n        \"bookingdates\": {\n            \"checkin\": \"2023-03-02\",\n            \"checkout\": \"2023-03-03\"\n        },\n        \"additionalneeds\": \"Breakfast\"\n    }\n}"
+				},
+				{
+					"name": "Empty Frist Name",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstname\" : \"\",\n    \"lastname\" : \"{{lastname}}\",\n    \"totalprice\" : 111,\n    \"depositpaid\" : true,\n    \"bookingdates\" : {\n        \"checkin\" : \"2023-03-03\",\n        \"checkout\" : \"2023-03-03\"\n    },\n    \"additionalneeds\" : \"Breakfast\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{global}}/booking",
+							"host": [
+								"{{global}}"
+							],
+							"path": [
+								"booking"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Cowboy"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "196"
+						},
+						{
+							"key": "Etag",
+							"value": "W/\"c4-TnFJbw9R1gmxzAJ7BPAXztddEQ8\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 02 Mar 2023 12:02:25 GMT"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 vegur"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"bookingid\": 8970,\n    \"booking\": {\n        \"firstname\": \"\",\n        \"lastname\": \"Chyntya\",\n        \"totalprice\": 111,\n        \"depositpaid\": true,\n        \"bookingdates\": {\n            \"checkin\": \"2023-03-03\",\n            \"checkout\": \"2023-03-03\"\n        },\n        \"additionalneeds\": \"Breakfast\"\n    }\n}"
+				},
+				{
+					"name": "Empty Last Name",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstname\" : \"{{firstname}}\",\n    \"lastname\" : \"\",\n    \"totalprice\" : 111,\n    \"depositpaid\" : true,\n    \"bookingdates\" : {\n        \"checkin\" : \"2023-03-03\",\n        \"checkout\" : \"2023-03-03\"\n    },\n    \"additionalneeds\" : \"Breakfast\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{global}}/booking",
+							"host": [
+								"{{global}}"
+							],
+							"path": [
+								"booking"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Cowboy"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "195"
+						},
+						{
+							"key": "Etag",
+							"value": "W/\"c3-cv4Sh/RBw5IeDU86qg+TchGoKrQ\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 02 Mar 2023 12:03:06 GMT"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 vegur"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"bookingid\": 9950,\n    \"booking\": {\n        \"firstname\": \"Ovilia\",\n        \"lastname\": \"\",\n        \"totalprice\": 111,\n        \"depositpaid\": true,\n        \"bookingdates\": {\n            \"checkin\": \"2023-03-03\",\n            \"checkout\": \"2023-03-03\"\n        },\n        \"additionalneeds\": \"Breakfast\"\n    }\n}"
+				},
+				{
+					"name": "Empty Frist Name and Last Name",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstname\" : \"\",\n    \"lastname\" : \"\",\n    \"totalprice\" : 111,\n    \"depositpaid\" : true,\n    \"bookingdates\" : {\n        \"checkin\" : \"2023-03-02\",\n        \"checkout\" : \"2023-03-03\"\n    },\n    \"additionalneeds\" : \"Breakfast\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{global}}/booking",
+							"host": [
+								"{{global}}"
+							],
+							"path": [
+								"booking"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Cowboy"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "188"
+						},
+						{
+							"key": "Etag",
+							"value": "W/\"bc-o9KBKaLy0Udsmp4WU2w2EPqIeq0\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 02 Mar 2023 10:45:21 GMT"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 vegur"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"bookingid\": 351,\n    \"booking\": {\n        \"firstname\": \"\",\n        \"lastname\": \"\",\n        \"totalprice\": 111,\n        \"depositpaid\": true,\n        \"bookingdates\": {\n            \"checkin\": \"2023-03-02\",\n            \"checkout\": \"2023-03-03\"\n        },\n        \"additionalneeds\": \"Breakfast\"\n    }\n}"
+				},
+				{
+					"name": "Empty Checkin Date",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstname\" : \"{{firstname}}\",\n    \"lastname\" : \"{{lastname}}\",\n    \"totalprice\" : 111,\n    \"depositpaid\" : true,\n    \"bookingdates\" : {\n        \"checkin\" : \"0000-00-00\",\n        \"checkout\" : \"2023-03-03\"\n    },\n    \"additionalneeds\" : \"Breakfast\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{global}}/booking",
+							"host": [
+								"{{global}}"
+							],
+							"path": [
+								"booking"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Cowboy"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "203"
+						},
+						{
+							"key": "Etag",
+							"value": "W/\"cb-ctVbdfruM9/KgqI5cgz0fMs8rKU\""
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 03 Mar 2023 11:05:48 GMT"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 vegur"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"bookingid\": 13872,\n    \"booking\": {\n        \"firstname\": \"Ovilia\",\n        \"lastname\": \"Chyntya\",\n        \"totalprice\": 111,\n        \"depositpaid\": true,\n        \"bookingdates\": {\n            \"checkin\": \"0NaN-aN-aN\",\n            \"checkout\": \"2023-03-03\"\n        },\n        \"additionalneeds\": \"Breakfast\"\n    }\n}"
+				},
+				{
+					"name": "Empty Checkout Date",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstname\" : \"{{firstname}}\",\n    \"lastname\" : \"{{lastname}}\",\n    \"totalprice\" : 111,\n    \"depositpaid\" : true,\n    \"bookingdates\" : {\n        \"checkin\" : \"2023-03-02\",\n        \"checkout\" : \"0000-00-00\"\n    },\n    \"additionalneeds\" : \"Breakfast\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{global}}/booking",
+							"host": [
+								"{{global}}"
+							],
+							"path": [
+								"booking"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Cowboy"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "202"
+						},
+						{
+							"key": "Etag",
+							"value": "W/\"ca-iQyx9n5dh6mlIx7R2Gsfkwv9ZrM\""
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 03 Mar 2023 11:07:24 GMT"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 vegur"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"bookingid\": 1565,\n    \"booking\": {\n        \"firstname\": \"Ovilia\",\n        \"lastname\": \"Chyntya\",\n        \"totalprice\": 111,\n        \"depositpaid\": true,\n        \"bookingdates\": {\n            \"checkin\": \"2023-03-02\",\n            \"checkout\": \"0NaN-aN-aN\"\n        },\n        \"additionalneeds\": \"Breakfast\"\n    }\n}"
+				},
+				{
+					"name": "Empty Checkin and Checkout Date",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstname\" : \"{{firstname}}\",\n    \"lastname\" : \"{{lastname}}\",\n    \"totalprice\" : 111,\n    \"depositpaid\" : true,\n    \"bookingdates\" : {\n        \"checkin\" : \"0000-00-00\",\n        \"checkout\" : \"0000-00-00\"\n    },\n    \"additionalneeds\" : \"Breakfast\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{global}}/booking",
+							"host": [
+								"{{global}}"
+							],
+							"path": [
+								"booking"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Cowboy"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "202"
+						},
+						{
+							"key": "Etag",
+							"value": "W/\"ca-Zejdf4GcJKfB1uIyCAW0/JFu56w\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 02 Mar 2023 12:17:34 GMT"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 vegur"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"bookingid\": 1821,\n    \"booking\": {\n        \"firstname\": \"Ovilia\",\n        \"lastname\": \"Chyntya\",\n        \"totalprice\": 111,\n        \"depositpaid\": true,\n        \"bookingdates\": {\n            \"checkin\": \"0NaN-aN-aN\",\n            \"checkout\": \"0NaN-aN-aN\"\n        },\n        \"additionalneeds\": \"Breakfast\"\n    }\n}"
+				},
+				{
+					"name": "Empty Additional Needs",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstname\" : \"{{firstname}}\",\n    \"lastname\" : \"{{lastname}}\",\n    \"totalprice\" : 111,\n    \"depositpaid\" : true,\n    \"bookingdates\" : {\n        \"checkin\" : \"2023-03-03\",\n        \"checkout\" : \"2023-03-03\"\n    },\n    \"additionalneeds\" : \"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{global}}/booking",
+							"host": [
+								"{{global}}"
+							],
+							"path": [
+								"booking"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Cowboy"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "191"
+						},
+						{
+							"key": "Etag",
+							"value": "W/\"bf-d4OPTAIoWOoA+/vndkkUCfhhVaw\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 02 Mar 2023 12:16:05 GMT"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 vegur"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"bookingid\": 12,\n    \"booking\": {\n        \"firstname\": \"Ovilia\",\n        \"lastname\": \"Chyntya\",\n        \"totalprice\": 111,\n        \"depositpaid\": true,\n        \"bookingdates\": {\n            \"checkin\": \"2023-03-03\",\n            \"checkout\": \"2023-03-03\"\n        },\n        \"additionalneeds\": \"\"\n    }\n}"
+				},
+				{
+					"name": "Empty Frist Name, Last Name, Booking Date and Additional Needs",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstname\" : \"\",\n    \"lastname\" : \"\",\n    \"totalprice\" : 0,\n    \"depositpaid\" : true,\n    \"bookingdates\" : {\n        \"checkin\" : \"0000-00-00\",\n        \"checkout\" : \"0000-00-00\"\n    },\n    \"additionalneeds\" : \"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{global}}/booking",
+							"host": [
+								"{{global}}"
+							],
+							"path": [
+								"booking"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Cowboy"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "178"
+						},
+						{
+							"key": "Etag",
+							"value": "W/\"b2-QN1xbrC7/VbBuLu/c+6k+URMMOw\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 02 Mar 2023 11:45:58 GMT"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 vegur"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"bookingid\": 1190,\n    \"booking\": {\n        \"firstname\": \"\",\n        \"lastname\": \"\",\n        \"totalprice\": 0,\n        \"depositpaid\": true,\n        \"bookingdates\": {\n            \"checkin\": \"0NaN-aN-aN\",\n            \"checkout\": \"0NaN-aN-aN\"\n        },\n        \"additionalneeds\": \"\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "GetBooking",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 600ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(600);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{global}}/booking/{{bookingid}}",
+					"host": [
+						"{{global}}"
+					],
+					"path": [
+						"booking",
+						"{{bookingid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetBookingIds",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"// let bookingid = pm.collectionVariables.get(\"bookingid\");",
+							"let bookingid = pm.globals.get(\"bookingid\");",
+							"",
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.include(bookingid);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{global}}/booking",
+					"host": [
+						"{{global}}"
+					],
+					"path": [
+						"booking"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "https://restful-booker.herokuapp.com",
+			"disabled": true
+		},
+		{
+			"key": "firstname",
+			"value": "",
+			"disabled": true
+		},
+		{
+			"key": "lastname",
+			"value": "",
+			"disabled": true
+		},
+		{
+			"key": "token",
+			"value": "",
+			"disabled": true
+		},
+		{
+			"key": "bookingid",
+			"value": "",
+			"disabled": true
+		},
+		{
+			"key": "firstname",
+			"value": ""
+		},
+		{
+			"key": "lastname",
+			"value": ""
+		}
+	]
+}

@@ -726,7 +726,68 @@
 					]
 				}
 			},
-			"response": []
+			"response": [
+				{
+					"name": "Success Get Booking",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{global}}/booking/{{bookingid}}",
+							"host": [
+								"{{global}}"
+							],
+							"path": [
+								"booking",
+								"{{bookingid}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Cowboy"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "173"
+						},
+						{
+							"key": "Etag",
+							"value": "W/\"ad-w1WZLS6SQEBVVMqhEbvtTCrx7rc\""
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 03 Mar 2023 13:47:14 GMT"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 vegur"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"firstname\": \"Ovilia\",\n    \"lastname\": \"Chyntya\",\n    \"totalprice\": 111,\n    \"depositpaid\": true,\n    \"bookingdates\": {\n        \"checkin\": \"2023-03-02\",\n        \"checkout\": \"2023-03-03\"\n    },\n    \"additionalneeds\": \"Breakfast\"\n}"
+				}
+			]
 		},
 		{
 			"name": "GetBookingIds",
